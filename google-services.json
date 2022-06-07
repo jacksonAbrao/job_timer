@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "64106367902",
+    "project_id": "capi-1681-timer",
+    "storage_bucket": "capi-1681-timer.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:64106367902:android:3a77e9b0d0c237b281248f",
+        "android_client_info": {
+          "package_name": "br.com.capivarias"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "64106367902-opsk1iv4kjstk0gq5qdhqb4tp5ig1kqa.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBBKnMQBAYugiFnQ4N9XUvQOHdg0fy_6zA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "64106367902-opsk1iv4kjstk0gq5qdhqb4tp5ig1kqa.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

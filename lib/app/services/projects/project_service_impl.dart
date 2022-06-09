@@ -18,8 +18,8 @@ class ProjectServiceImpl implements ProjectService {
       ..id = projectModel.id
       ..name = projectModel.name
       ..status = projectModel.status
-      ..price = projectModel.price
-      ..estimate = projectModel.estimate;
+      ..estimate = projectModel.estimate
+      ..price = projectModel.price;
 
     await _projectRepository.register(project);
   }

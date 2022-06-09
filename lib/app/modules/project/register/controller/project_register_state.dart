@@ -4,5 +4,5 @@ enum ProjectRegisterStatus {
   initial,
   loading,
   success,
-  failure,
+  failure;
 }

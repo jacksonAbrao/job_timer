@@ -5,9 +5,10 @@ class ProjectModel {
   final int? id;
   final String name;
   final int estimate;
-  final double price;
   final ProjectStatus status;
+  final double price;
   final List<ProjectTaskModel> tasks;
+
   ProjectModel({
     this.id,
     required this.name,

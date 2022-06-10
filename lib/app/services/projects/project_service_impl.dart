@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:job_timer/app/entities/project.dart';
+import 'package:job_timer/app/entities/project_status.dart';
 import 'package:job_timer/app/repositories/projects/project_repository.dart';
 import 'package:job_timer/app/view_modules/project_model.dart';
 
@@ -22,5 +23,12 @@ class ProjectServiceImpl implements ProjectService {
       ..price = projectModel.price;
 
     await _projectRepository.register(project);
+  }
+
+  @override
+  Future<List<ProjectModel>> findByStatus(ProjectStatus status) async {
+    final projects = await _projectRepository.findByStatus(status);
+
+    return projects.map(ProjectModel.fromEntity).toList();
   }
 }

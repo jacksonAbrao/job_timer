@@ -1,3 +1,4 @@
+import 'package:job_timer/app/entities/project.dart';
 import 'package:job_timer/app/entities/project_status.dart';
 import 'package:job_timer/app/view_modules/project_task_model.dart';
 
@@ -17,4 +18,17 @@ class ProjectModel {
     required this.status,
     required this.tasks,
   });
+
+  factory ProjectModel.fromEntity(Project project) {
+    project.tasks.loadSync();
+
+    return ProjectModel(
+      id: project.id,
+      name: project.name,
+      estimate: project.estimate,
+      price: project.price,
+      status: project.status,
+      tasks: project.tasks.map(ProjectTaskModel.fromEntity).toList(),
+    );
+  }
 }

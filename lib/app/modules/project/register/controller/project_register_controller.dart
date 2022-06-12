@@ -14,13 +14,12 @@ class ProjectRegisterController extends Cubit<ProjectRegisterStatus> {
       : _projectService = projectService,
         super(ProjectRegisterStatus.initial);
 
-  Future<void> register(String name, int estimate, double price) async {
+  Future<void> register(String name, int estimate) async {
     try {
       emit(ProjectRegisterStatus.loading);
       final project = ProjectModel(
         estimate: estimate,
         name: name,
-        price: price,
         status: ProjectStatus.emAndamento,
         tasks: [],
       );

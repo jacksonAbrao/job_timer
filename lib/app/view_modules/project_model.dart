@@ -7,14 +7,12 @@ class ProjectModel {
   final String name;
   final int estimate;
   final ProjectStatus status;
-  final double price;
   final List<ProjectTaskModel> tasks;
 
   ProjectModel({
     this.id,
     required this.name,
     required this.estimate,
-    required this.price,
     required this.status,
     required this.tasks,
   });
@@ -26,7 +24,6 @@ class ProjectModel {
       id: project.id,
       name: project.name,
       estimate: project.estimate,
-      price: project.price,
       status: project.status,
       tasks: project.tasks.map(ProjectTaskModel.fromEntity).toList(),
     );

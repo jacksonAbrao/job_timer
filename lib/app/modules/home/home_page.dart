@@ -23,10 +23,15 @@ class HomePage extends StatelessWidget {
       },
       child: Scaffold(
         backgroundColor: Colors.white,
-        drawer: const Drawer(
+        drawer: Drawer(
           child: SafeArea(
               child: ListTile(
-            title: Text('Sair'),
+            title: const Text('Logout'),
+            trailing: const Icon(Icons.exit_to_app),
+            onTap: () {
+              Navigator.of(context).pop();
+              Navigator.of(context).pushNamed('/login');
+            },
           )),
         ),
         body: SafeArea(

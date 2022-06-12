@@ -13,7 +13,6 @@ class Project {
   late int estimate;
   @ProjectStatusConverter()
   late ProjectStatus status;
-  late double price;
 
   final tasks = IsarLinks<ProjectTask>();
 }

@@ -19,13 +19,11 @@ class _ProjectRegisterPageState extends State<ProjectRegisterPage> {
   final _formKey = GlobalKey<FormState>();
   final _nameEC = TextEditingController();
   final _estimateEC = TextEditingController();
-  final _priceEC = TextEditingController();
 
   @override
   void dispose() {
     _nameEC.dispose();
     _estimateEC.dispose();
-    _priceEC.dispose();
     super.dispose();
   }
 
@@ -88,17 +86,6 @@ class _ProjectRegisterPageState extends State<ProjectRegisterPage> {
                 const SizedBox(
                   height: 10,
                 ),
-                TextFormField(
-                  controller: _priceEC,
-                  keyboardType: TextInputType.number,
-                  decoration: const InputDecoration(
-                    label: Text('Valor do projeto'),
-                  ),
-                  validator: Validatorless.number('Permitido somente números'),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
                 SizedBox(
                   width: MediaQuery.of(context).size.width,
                   height: 49,
@@ -112,9 +99,8 @@ class _ProjectRegisterPageState extends State<ProjectRegisterPage> {
                       if (formValid) {
                         final name = _nameEC.text;
                         final estimate = int.parse(_estimateEC.text);
-                        final price = double.parse(_priceEC.text);
 
-                        await widget.controller.register(name, estimate, price);
+                        await widget.controller.register(name, estimate);
                       }
                     },
                     label: 'Cadastrar',

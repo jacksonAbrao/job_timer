@@ -5,6 +5,7 @@ import 'package:job_timer/app/core/ui/job_timer_icons.dart';
 import 'package:job_timer/app/modules/project/detail/controller/project_detail_controller.dart';
 import 'package:job_timer/app/view_modules/project_model.dart';
 
+import '../../../entities/project_status.dart';
 import 'widgets/project_detail_appbar.dart';
 import 'widgets/project_pie_chart.dart';
 import 'widgets/project_task_tile.dart';
@@ -84,17 +85,30 @@ class ProjectDetailPage extends StatelessWidget {
   }
 
   Widget _buildProjectDetail(BuildContext contex, ProjectModel projectModel) {
+    final totalTasks = projectModel.tasks.fold<int>(0, (totalValue, task) {
+      return totalValue += task.duration;
+    });
+
     return CustomScrollView(slivers: [
       ProjectDetailAppbar(
         projectModel: projectModel,
       ),
       SliverList(
         delegate: SliverChildListDelegate([
-          const Padding(
-            padding: EdgeInsets.symmetric(vertical: 50.0),
-            child: ProjectPieChart(),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 50.0),
+            child: ProjectPieChart(
+              projectEstimate: projectModel.estimate,
+              totalTasks: totalTasks,
+            ),
           ),
-          ProjectTaskTile(),
+          ...projectModel.tasks
+              .map(
+                (task) => ProjectTaskTile(
+                  task: task,
+                ),
+              )
+              .toList()
         ]),
       ),
       SliverFillRemaining(
@@ -103,10 +117,15 @@ class ProjectDetailPage extends StatelessWidget {
           alignment: Alignment.bottomRight,
           child: Padding(
             padding: const EdgeInsets.all(15.0),
-            child: ElevatedButton.icon(
-              onPressed: () {},
-              icon: Icon(JobTimerIcons.ok_circled2),
-              label: Text('Finalizar projeto'),
+            child: Visibility(
+              visible: projectModel.status != ProjectStatus.finalizado,
+              child: ElevatedButton.icon(
+                onPressed: () {
+                  controller.finishProject();
+                },
+                icon: const Icon(JobTimerIcons.ok_circled2),
+                label: const Text('Finalizar projeto'),
+              ),
             ),
           ),
         ),

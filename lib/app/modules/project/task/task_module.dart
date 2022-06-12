@@ -8,7 +8,7 @@ class TaskModule extends Module {
   @override
   List<Bind<Object>> get binds => [
         BlocBind.lazySingleton(
-          (i) => TaskController(),
+          (i) => TaskController(projectService: i()), //AppModule
         )
       ];
   @override

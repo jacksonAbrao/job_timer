@@ -1,9 +1,9 @@
 import 'dart:developer';
-
 import 'package:isar/isar.dart';
 import 'package:job_timer/app/core/database/database.dart';
 import 'package:job_timer/app/entities/project.dart';
 import 'package:job_timer/app/entities/project_status.dart';
+import 'package:job_timer/app/entities/project_task.dart';
 
 import '../../core/exceptions/failure.dart';
 import './project_repository.dart';
@@ -35,5 +35,43 @@ class ProjectRepositoryImpl implements ProjectRepository {
         await connection.projects.filter().statusEqualTo(status).findAll();
 
     return projects;
+  }
+
+  @override
+  Future<Project> addTask(int projectId, ProjectTask task) async {
+    final connection = await _database.openConnection();
+    final project = await findById(projectId);
+
+    project.tasks.add(task);
+
+    await connection.writeTxn((isar) => project.tasks.save());
+
+    return project;
+  }
+
+  @override
+  Future<Project> findById(int projectId) async {
+    final connection = await _database.openConnection();
+    final project = await connection.projects.get(projectId);
+
+    if (project == null) {
+      throw Failure(message: 'Projeto não encontrado');
+    }
+
+    return project;
+  }
+
+  @override
+  Future<void> finish(int projectId) async {
+    try {
+      final connection = await _database.openConnection();
+      final project = await findById(projectId);
+      project.status = ProjectStatus.finalizado;
+      await connection.writeTxn(
+          (isar) => connection.projects.put(project, saveLinks: true));
+    } on IsarError catch (e, s) {
+      log('Erro ao finalizar projeto', error: e, stackTrace: s);
+      throw Failure(message: 'Erro ao finalizar projeto');
+    }
   }
 }

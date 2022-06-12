@@ -22,6 +22,7 @@ class HomePage extends StatelessWidget {
         }
       },
       child: Scaffold(
+        backgroundColor: Colors.white,
         drawer: const Drawer(
           child: SafeArea(
               child: ListTile(
@@ -63,19 +64,20 @@ class HomePage extends StatelessWidget {
                 },
               ),
               BlocSelector<HomeController, HomeState, List<ProjectModel>>(
-                  bloc: controller,
-                  selector: (state) => state.projects,
-                  builder: (context, projects) {
-                    return SliverList(
-                      delegate: SliverChildListDelegate(
-                        projects
-                            .map(
-                              (project) => ProjectTile(projectModel: project),
-                            )
-                            .toList(),
-                      ),
-                    );
-                  })
+                bloc: controller,
+                selector: (state) => state.projects,
+                builder: (context, projects) {
+                  return SliverList(
+                    delegate: SliverChildListDelegate(
+                      projects
+                          .map(
+                            (project) => ProjectTile(projectModel: project),
+                          )
+                          .toList(),
+                    ),
+                  );
+                },
+              )
             ],
           ),
         ),

@@ -1,4 +1,4 @@
-import 'package:asuka/asuka.dart';
+import 'package:asuka/asuka.dart' as asuka;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:job_timer/app/core/ui/job_timer_icons.dart';
@@ -23,7 +23,7 @@ class ProjectDetailPage extends StatelessWidget {
         bloc: controller,
         listener: ((context, state) {
           if (state.status == ProjectDetailStatus.failure) {
-            AsukaSnackbar.alert('Erro interno');
+            asuka.AsukaSnackbar.alert('Erro interno');
           }
         }),
         builder: ((context, state) {
@@ -84,7 +84,7 @@ class ProjectDetailPage extends StatelessWidget {
     );
   }
 
-  Widget _buildProjectDetail(BuildContext contex, ProjectModel projectModel) {
+  Widget _buildProjectDetail(BuildContext context, ProjectModel projectModel) {
     final totalTasks = projectModel.tasks.fold<int>(0, (totalValue, task) {
       return totalValue += task.duration;
     });
@@ -93,23 +93,22 @@ class ProjectDetailPage extends StatelessWidget {
       ProjectDetailAppbar(
         projectModel: projectModel,
       ),
-      SliverList(
-        delegate: SliverChildListDelegate([
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 50.0),
-            child: ProjectPieChart(
-              projectEstimate: projectModel.estimate,
-              totalTasks: totalTasks,
-            ),
+      SliverToBoxAdapter(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 50.0),
+          child: ProjectPieChart(
+            projectEstimate: projectModel.estimate,
+            totalTasks: totalTasks,
           ),
-          ...projectModel.tasks
-              .map(
-                (task) => ProjectTaskTile(
-                  task: task,
-                ),
-              )
-              .toList()
-        ]),
+        ),
+      ),
+      SliverList(
+        delegate: SliverChildBuilderDelegate(
+          childCount: projectModel.tasks.length,
+          (context, index) => ProjectTaskTile(
+            task: projectModel.tasks[index],
+          ),
+        ),
       ),
       SliverFillRemaining(
         hasScrollBody: false,
@@ -121,7 +120,7 @@ class ProjectDetailPage extends StatelessWidget {
               visible: projectModel.status != ProjectStatus.finalizado,
               child: ElevatedButton.icon(
                 onPressed: () {
-                  controller.finishProject();
+                  _confirmFinishProject(context);
                 },
                 icon: const Icon(JobTimerIcons.ok_circled2),
                 label: const Text('Finalizar projeto'),
@@ -131,5 +130,33 @@ class ProjectDetailPage extends StatelessWidget {
         ),
       )
     ]);
+  }
+
+  void _confirmFinishProject(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text('Deseja finalizar projeto?'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text('Cancelar'),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                  controller.finishProject();
+                },
+                child: const Text(
+                  'Finalizar',
+                  style: TextStyle(color: Colors.red),
+                ),
+              ),
+            ],
+          );
+        });
   }
 }

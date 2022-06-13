@@ -17,6 +17,46 @@ class ProjectPieChart extends StatelessWidget {
 
     final residual = (projectEstimate - totalTasks);
 
+    var chartData = <PieChartSectionData>[];
+
+    if (residual > 0) {
+      chartData = [
+        PieChartSectionData(
+          value: totalTasks.toDouble(),
+          color: theme.primaryColor,
+          showTitle: true,
+          title: '${zeroToLeft(totalTasks)}h',
+          titleStyle: const TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        PieChartSectionData(
+          value: residual.toDouble(),
+          color: theme.primaryColorLight,
+          showTitle: true,
+          title: '${zeroToLeft(residual)}h',
+          titleStyle: const TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ];
+    } else {
+      chartData = [
+        PieChartSectionData(
+          value: totalTasks.toDouble(),
+          color: Colors.red,
+          showTitle: true,
+          title: '${totalTasks}h',
+          titleStyle: const TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
+        )
+      ];
+    }
+
     return SizedBox(
       width: 200,
       height: 200,
@@ -24,30 +64,7 @@ class ProjectPieChart extends StatelessWidget {
         fit: StackFit.loose,
         children: [
           PieChart(
-            PieChartData(
-              sections: [
-                PieChartSectionData(
-                  value: totalTasks.toDouble(),
-                  color: theme.primaryColor,
-                  showTitle: true,
-                  title: '${zeroToLeft(totalTasks)}h',
-                  titleStyle: const TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                PieChartSectionData(
-                  value: residual.toDouble(),
-                  color: theme.primaryColorLight,
-                  showTitle: true,
-                  title: '${zeroToLeft(residual)}h',
-                  titleStyle: const TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
+            PieChartData(sections: chartData),
           ),
           Align(
             alignment: Alignment.center,

@@ -22,16 +22,12 @@ class HomePage extends StatelessWidget {
         }
       },
       child: Scaffold(
-        backgroundColor: Colors.white,
         drawer: Drawer(
           child: SafeArea(
               child: ListTile(
             title: const Text('Logout'),
             trailing: const Icon(Icons.exit_to_app),
-            onTap: () {
-              Navigator.of(context).pop();
-              Navigator.of(context).pushNamed('/login');
-            },
+            onTap: () => controller.logouth(),
           )),
         ),
         body: SafeArea(

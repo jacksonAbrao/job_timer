@@ -47,7 +47,7 @@ class _ProjectName extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(10.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -80,7 +80,7 @@ class _ProjectProgress extends StatelessWidget {
     }
 
     return Container(
-      padding: const EdgeInsets.all(10),
+      padding: const EdgeInsets.only(left: 10, right: 10),
       decoration: BoxDecoration(
         color: Colors.grey[300],
         borderRadius: const BorderRadius.only(
@@ -91,10 +91,15 @@ class _ProjectProgress extends StatelessWidget {
       child: Row(
         children: [
           Expanded(
-            child: LinearProgressIndicator(
-              value: percent,
-              backgroundColor: Colors.grey[400],
-              color: Theme.of(context).primaryColor,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(5),
+              child: LinearProgressIndicator(
+                value: percent,
+                backgroundColor: Colors.grey[400],
+                color:
+                    percent > 1 ? Colors.red : Theme.of(context).primaryColor,
+                minHeight: 10,
+              ),
             ),
           ),
           Padding(

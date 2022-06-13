@@ -18,26 +18,32 @@ class ButtonWithLoader<B extends StateStreamable<S>, S>
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: onPressed,
-      child: BlocSelector<B, S, bool>(
-        bloc: bloc,
-        selector: selector,
-        builder: (context, showLoading) {
-          if (!showLoading) {
-            return Text(label);
-          }
-
-          return Stack(
-            alignment: Alignment.center,
-            children: const [
-              CircularProgressIndicator.adaptive(
-                backgroundColor: Colors.white,
-              )
-            ],
-          );
-        },
-      ),
+    return BlocSelector<B, S, bool>(
+      bloc: bloc,
+      selector: selector,
+      builder: (context, showLoading) {
+        return ElevatedButton(
+          onPressed: showLoading ? null : onPressed,
+          style: !showLoading
+              ? ElevatedButton.styleFrom()
+              : ElevatedButton.styleFrom(
+                  shape: const CircleBorder(),
+                  onSurface: Colors.blue,
+                ),
+          child: Visibility(
+            visible: showLoading,
+            replacement: Text(label),
+            child: Stack(
+              alignment: Alignment.center,
+              children: const [
+                CircularProgressIndicator.adaptive(
+                  backgroundColor: Colors.white,
+                )
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }
